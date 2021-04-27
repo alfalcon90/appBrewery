@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-const TextStyle labelTextStyle =
-    TextStyle(fontSize: 18, color: Color(0xFF8D8E98));
+import '../constants.dart';
 
 class Sex extends StatelessWidget {
   Sex({@required this.label, @required this.icon});
