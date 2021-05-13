@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({
-    Key key,
-  }) : super(key: key);
+  AddTaskScreen({this.onSubmit});
+
+  final Function onSubmit;
+  final inputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class AddTaskScreen extends StatelessWidget {
               ),
             ),
             TextField(
+              controller: inputController,
               style: TextStyle(),
               autofocus: true,
             ),
@@ -32,7 +34,10 @@ class AddTaskScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  onSubmit(inputController.text);
+                  Navigator.pop(context);
+                },
                 child: Text('Add'),
               ),
             )

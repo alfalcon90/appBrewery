@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todoey/main.dart';
 
-class TaskItem extends StatefulWidget {
-  @override
-  _TaskItemState createState() => _TaskItemState();
-}
+class TaskItem extends StatelessWidget {
+  TaskItem(
+      {this.isDone = false,
+      this.title = 'Task Title',
+      this.onChanged,
+      this.onLongPress});
 
-class _TaskItemState extends State<TaskItem> {
-  bool isChecked = false;
+  final bool isDone;
+  final String title;
+  final Function onChanged;
+  final Function onLongPress;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: onLongPress,
       title: Text(
-        'task',
+        title,
         style: TextStyle(
-          decoration: isChecked ? TextDecoration.lineThrough : null,
+          decoration: isDone ? TextDecoration.lineThrough : null,
           decorationThickness: 4,
         ),
       ),
       trailing: Checkbox(
         activeColor: Colors.lightBlueAccent,
-        value: isChecked,
-        onChanged: (value) {
-          setState(() {
-            isChecked = value;
-          });
-        },
+        value: isDone,
+        onChanged: onChanged,
       ),
     );
   }

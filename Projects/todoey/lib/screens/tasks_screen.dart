@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todoey/widgets/tasks_list.dart';
 import 'add_task_screen.dart';
+import 'package:todoey/models/task_data.dart';
+import 'package:todoey/main.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    List<Task> tasks = useProvider(tasksProvider);
+
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
               context: context,
-              builder: (context) => AddTaskScreen(),
+              builder: (context) => AddTaskScreen(onSubmit: (String title) {
+                    context.read(tasksProvider.notifier).add(title);
+                  }),
               isScrollControlled: true,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -53,7 +61,7 @@ class TasksScreen extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(left: 4, top: 8),
                   child: Text(
-                    '12 Tasks',
+                    '${tasks.length} Tasks',
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
@@ -68,7 +76,9 @@ class TasksScreen extends StatelessWidget {
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24)),
               ),
-              child: TaskList(),
+              child: TaskList(
+                tasks: tasks,
+              ),
             ),
           )
         ],
